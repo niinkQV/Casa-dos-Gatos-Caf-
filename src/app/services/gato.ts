@@ -18,4 +18,12 @@ export class GatoService {
       gato
     );
   }
+  
+  listar(): Observable<Gato[]> {
+    return this.http.get<Gato[]>(`${this.apiUrl}/gatos`);
+  }
+
+  buscarPorId(id: number): Observable<Gato> {
+    return this.http.get<Gato>(`${this.apiUrl}/gatos/${id}`);
+  }
 }

@@ -1,0 +1,29 @@
+<div class="detalhe-container">
+
+  <p class="carregando" *ngIf="carregando()">Carregando dados do gato...</p>
+
+  <p class="erro" *ngIf="mensagemErro()">{{ mensagemErro() }}</p>
+
+  <div class="card-detalhe" *ngIf="gato() && !carregando()">
+
+    <img
+      *ngIf="gato()!.foto"
+      [src]="gato()!.foto"
+      alt="Foto de {{ gato()!.nome }}"
+      class="foto-gato"
+    />
+
+    <h2>{{ gato()!.nome }}</h2>
+
+    <p><strong>Cor:</strong> {{ gato()!.cor }}</p>
+    <p><strong>Sexo:</strong> {{ gato()!.sexo === 'MACHO' ? 'Macho' : 'Fêmea' }}</p>
+    <p><strong>Idade:</strong> {{ gato()!.idade }} anos</p>
+    <p><strong>Peso:</strong> {{ gato()!.peso }} kg</p>
+    <p><strong>Status:</strong> {{ gato()!.status }}</p>
+    <p class="biografia"><strong>Biografia:</strong> {{ gato()!.biografia }}</p>
+
+    <a class="btn-voltar" routerLink="/gatos">Voltar para a listagem</a>
+
+  </div>
+
+</div>

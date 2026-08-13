@@ -1,0 +1,34 @@
+<div class="listagem-container">
+
+  <h2>Gatos disponíveis</h2>
+
+  <p class="carregando" *ngIf="carregando()">Carregando gatos...</p>
+
+  <p class="erro" *ngIf="mensagemErro()">{{ mensagemErro() }}</p>
+
+  <div class="grid-gatos" *ngIf="!carregando() && !mensagemErro()">
+
+    <p class="vazio" *ngIf="gatos().length === 0">Nenhum gato cadastrado ainda.</p>
+
+    <div class="card-gato" *ngFor="let gato of gatos()">
+      <img
+        *ngIf="gato.foto"
+        [src]="gato.foto"
+        alt="Foto de {{ gato.nome }}"
+        class="foto-gato"
+      />
+
+      <h3>{{ gato.nome }}</h3>
+
+      <p><strong>Sexo:</strong> {{ gato.sexo === 'MACHO' ? 'Macho' : 'Fêmea' }}</p>
+      <p><strong>Idade:</strong> {{ gato.idade }} anos</p>
+      <p><strong>Status:</strong> {{ gato.status }}</p>
+
+      <a class="btn-detalhes" [routerLink]="['/gatos', gato.id]">
+        Ver detalhes
+      </a>
+    </div>
+
+  </div>
+
+</div>
