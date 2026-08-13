@@ -6,7 +6,7 @@ import com.casadosgatos.cafe.Enum.StatusGatos;
 import com.casadosgatos.cafe.Model.Gato;
 import com.casadosgatos.cafe.Repository.GatoRepository;
 import org.springframework.stereotype.Service;
-import com.casadosgatos.cafe.exception.RecursoNaoEncontradoException;
+import com.casadosgatos.cafe.Exception.RecursoNaoEncontradoException;
 import java.util.List;
 
 @Service
