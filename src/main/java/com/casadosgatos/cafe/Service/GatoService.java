@@ -6,6 +6,8 @@ import com.casadosgatos.cafe.Enum.StatusGatos;
 import com.casadosgatos.cafe.Model.Gato;
 import com.casadosgatos.cafe.Repository.GatoRepository;
 import org.springframework.stereotype.Service;
+import com.casadosgatos.cafe.exception.RecursoNaoEncontradoException;
+import java.util.List;
 
 @Service
 public class GatoService {
@@ -45,6 +47,35 @@ public class GatoService {
                 salvo.getPeso(),
                 salvo.getBiografia(),
                 salvo.getStatus()
+        );
+    }
+
+    public List<GatoResponseDTO> listar() {
+        return repository.findAll()
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
+
+    public GatoResponseDTO buscarPorId(Long id) {
+        Gato gato = repository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Gato não encontrado com o id: " + id));
+
+        return toResponseDTO(gato);
+    }
+
+    private GatoResponseDTO toResponseDTO(Gato gato) {
+        return new GatoResponseDTO(
+                gato.getId(),
+                gato.getNome(),
+                gato.getFoto(),
+                gato.getCor(),
+                gato.getSexo(),
+                gato.getIdade(),
+                gato.getPeso(),
+                gato.getBiografia(),
+                gato.getStatus()
         );
     }
 }
