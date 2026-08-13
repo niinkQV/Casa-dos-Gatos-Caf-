@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Gato } from '../../models/gato.model';
@@ -12,9 +12,9 @@ import { GatoService } from '../../services/gato';
   styleUrl: './detalhe-gato.css'
 })
 export class DetalheGato implements OnInit {
-  gato: Gato | null = null;
-  carregando = true;
-  mensagemErro = '';
+  gato = signal<Gato | null>(null);
+  carregando = signal(true);
+  mensagemErro = signal('');
 
   constructor(
     private route: ActivatedRoute,
@@ -26,15 +26,17 @@ export class DetalheGato implements OnInit {
 
     this.gatoService.buscarPorId(id).subscribe({
       next: (gato: Gato) => {
-        this.gato = gato;
-        this.carregando = false;
+        this.gato.set(gato);
+        this.carregando.set(false);
       },
       error: (erro: any) => {
         console.error('Erro ao buscar gato:', erro);
-        this.mensagemErro = erro.status === 404
-          ? 'Gato não encontrado.'
-          : 'Não foi possível carregar os dados do gato.';
-        this.carregando = false;
+        this.mensagemErro.set(
+          erro.status === 404
+            ? 'Gato não encontrado.'
+            : 'Não foi possível carregar os dados do gato.'
+        );
+        this.carregando.set(false);
       }
     });
   }
