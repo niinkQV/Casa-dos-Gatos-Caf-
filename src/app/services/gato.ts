@@ -32,4 +32,11 @@ export class GatoService {
       params: { status }
     });
   }
+
+  atualizar(id: number, gato: GatoRequest): Observable<Gato> {
+    return this.http.put<Gato>(
+        `${this.apiUrl}/gatos/${id}`,
+        gato
+    );
+  }
 }
