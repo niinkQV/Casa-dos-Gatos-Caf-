@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GatoRequest } from '../../models/gato.model';
 import { GatoService } from '../../services/gato';
@@ -8,7 +8,7 @@ import { GatoService } from '../../services/gato';
 @Component({
   selector: 'app-editar-gato',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './editar-gato.html',
   styleUrl: './editar-gato.css'
 })
@@ -16,10 +16,10 @@ export class EditarGato implements OnInit {
   form: FormGroup;
   gatoId!: number;
 
-  carregando = true;
-  enviando = false;
-  mensagemSucesso = '';
-  mensagemErro = '';
+  carregando = signal(true);
+  enviando = signal(false);
+  mensagemSucesso = signal('');
+  mensagemErro = signal('');
 
   sexoOptions = ['MACHO', 'FEMEA'];
   statusOptions = ['DISPONIVEL', 'EM_ADOCAO', 'ADOTADO', 'TRANSFERIDO'];
@@ -48,38 +48,38 @@ export class EditarGato implements OnInit {
     this.gatoService.buscarPorId(this.gatoId).subscribe({
       next: (gato) => {
         this.form.patchValue(gato);
-        this.carregando = false;
+        this.carregando.set(false);
       },
       error: (erro: any) => {
         console.error('Erro ao carregar gato para edição:', erro);
-        this.mensagemErro = 'Não foi possível carregar os dados do gato.';
-        this.carregando = false;
+        this.mensagemErro.set('Não foi possível carregar os dados do gato.');
+        this.carregando.set(false);
       }
     });
   }
 
   salvar(): void {
     if (this.form.invalid) {
-      this.mensagemErro = 'Preencha todos os campos obrigatórios corretamente.';
+      this.mensagemErro.set('Preencha todos os campos obrigatórios corretamente.');
       return;
     }
 
-    this.enviando = true;
-    this.mensagemSucesso = '';
-    this.mensagemErro = '';
+    this.enviando.set(true);
+    this.mensagemSucesso.set('');
+    this.mensagemErro.set('');
 
     const gatoRequest: GatoRequest = this.form.value;
 
     this.gatoService.atualizar(this.gatoId, gatoRequest).subscribe({
       next: () => {
-        this.mensagemSucesso = 'Gato atualizado com sucesso!';
-        this.enviando = false;
+        this.mensagemSucesso.set('Gato atualizado com sucesso!');
+        this.enviando.set(false);
         this.router.navigate(['/gatos', this.gatoId]);
       },
       error: (erro: any) => {
         console.error('Erro ao atualizar gato:', erro);
-        this.mensagemErro = 'Não foi possível salvar as alterações. Verifique o console.';
-        this.enviando = false;
+        this.mensagemErro.set('Não foi possível salvar as alterações. Verifique o console.');
+        this.enviando.set(false);
       }
     });
   }
