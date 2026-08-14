@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Gato, GatoRequest } from '../models/gato.model';
+import { Gato, GatoRequest, StatusGato } from '../models/gato.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +25,11 @@ export class GatoService {
 
   buscarPorId(id: number): Observable<Gato> {
     return this.http.get<Gato>(`${this.apiUrl}/gatos/${id}`);
+  }
+
+  buscarPorStatus(status: StatusGato): Observable<Gato[]> {
+    return this.http.get<Gato[]>(`${this.apiUrl}/gatos/busca`, {
+      params: { status }
+    });
   }
 }

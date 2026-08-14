@@ -2,6 +2,22 @@
 
   <h2>Gatos disponíveis</h2>
 
+    <div class="filtro-container">
+        <label for="filtroStatus">Filtrar por status</label>
+
+        <select
+                id="filtroStatus"
+                [(ngModel)]="filtroStatus"
+                (ngModelChange)="aoMudarFiltro()"
+        >
+            <option value="">Todos</option>
+
+            <option *ngFor="let s of statusOptions" [value]="s">
+                {{ s }}
+            </option>
+        </select>
+    </div>
+
   <p class="carregando" *ngIf="carregando()">Carregando gatos...</p>
 
   <p class="erro" *ngIf="mensagemErro()">{{ mensagemErro() }}</p>
