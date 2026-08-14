@@ -43,4 +43,13 @@ public class GatoController {
 
         return ResponseEntity.ok(service.buscarPorStatus(status));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<GatoResponseDTO> atualizar(
+            @PathVariable Long id,
+            @RequestBody GatoRequestDTO dto) {
+
+        return ResponseEntity.ok(service.atualizar(id,dto));
+    }
+
 }
