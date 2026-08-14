@@ -2,6 +2,7 @@ package com.casadosgatos.cafe.Controller;
 
 import com.casadosgatos.cafe.DTOs.GatoRequestDTO;
 import com.casadosgatos.cafe.DTOs.GatoResponseDTO;
+import com.casadosgatos.cafe.Enum.StatusGatos;
 import com.casadosgatos.cafe.Service.GatoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,5 +35,12 @@ public class GatoController {
     @GetMapping("/{id}")
     public ResponseEntity<GatoResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(service.buscarPorId(id));
+    }
+
+    @GetMapping("/busca")
+    public ResponseEntity<List<GatoResponseDTO>> buscarPorStatus(
+            @RequestParam StatusGatos status) {
+
+        return ResponseEntity.ok(service.buscarPorStatus(status));
     }
 }

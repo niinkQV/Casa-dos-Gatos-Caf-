@@ -5,8 +5,12 @@ import com.casadosgatos.cafe.DTOs.GatoResponseDTO;
 import com.casadosgatos.cafe.Enum.StatusGatos;
 import com.casadosgatos.cafe.Model.Gato;
 import com.casadosgatos.cafe.Repository.GatoRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.casadosgatos.cafe.Exception.RecursoNaoEncontradoException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import java.util.List;
 
 @Service
@@ -78,4 +82,32 @@ public class GatoService {
                 gato.getStatus()
         );
     }
-}
+
+    public List<GatoResponseDTO> buscarPorStatus(StatusGatos status) {
+        return repository.findByStatus(status)
+                .stream()
+                .map(this::toResponseDTO)
+                .toList();
+    }
+
+    public GatoResponseDTO atualizar(Long id, GatoRequestDTO dto) {
+        Gato gato = repository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "gato não encontrado com o id: " + id));
+
+        gato.setNome(dto.nome());
+        gato.setFoto(dto.foto());
+        gato.setCor(dto.cor());
+        gato.setSexo(dto.sexo());
+        gato.setIdade(dto.idade());
+        gato.setPeso(dto.peso());
+        gato.setBiografia(dto.biografia());
+
+        if (dto.status() != null) {
+            gato.setStatus(dto.status());
+        }
+
+        Gato atualizado = repository.save(gato);
+
+        return toResponseDTO(atualizado);
+    }
