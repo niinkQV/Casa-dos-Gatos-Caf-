@@ -35,3 +35,5 @@ build/
 =======
 node_modules
 >>>>>>> b4ae20bbbeab49558104b3d2d0de7f1ff36f14de
+
+.angular/
