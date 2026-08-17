@@ -52,4 +52,10 @@ public class GatoController {
         return ResponseEntity.ok(service.atualizar(id,dto));
     }
 
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> remover(@PathVariable Long id) {
+        service.remover(id);
+        return ResponseEntity.noContent().build();
+    }
 }

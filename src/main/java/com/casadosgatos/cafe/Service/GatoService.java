@@ -112,14 +112,14 @@ public class GatoService {
         return toResponseDTO(atualizado);
     }
 
-  public void transferir(Long id){
-    Gato gato = repository.findById(id)
-          .orElseThrow(() -> new RecursoNaoEncontradoException(
-            "gato não encontrado com o id: " + id));
+    public void remover(Long id) {
+        Gato gato = repository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Gato nao encontrado com o id: " + id));
 
-    gato.setStatus(StatusGatos.TRANSFERIDO);
+        gato.setStatus(StatusGatos.TRANSFERIDO);
 
-    repository.save(gato);
-            
-  }
-} 
+        repository.save(gato);
+    }
+}
+
