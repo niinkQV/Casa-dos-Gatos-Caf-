@@ -1,0 +1,134 @@
+<div class="edicao-container">
+ 
+  <p class="carregando" *ngIf="carregando()">Carregando dados do gato...</p>
+ 
+  <p class="erro" *ngIf="!carregando() && mensagemErro() && form.pristine">{{ mensagemErro() }}</p>
+ 
+  <form
+    [formGroup]="form"
+    (ngSubmit)="salvar()"
+    *ngIf="!carregando() && !(mensagemErro() && form.pristine)"
+  >
+ 
+    <h2>Editar gato</h2>
+ 
+    <label>
+      Nome
+      <input
+        type="text"
+        formControlName="nome"
+        placeholder="Digite o nome do gato"
+      />
+    </label>
+ 
+    <label>
+      Foto (URL)
+      <input
+        type="text"
+        formControlName="foto"
+        placeholder="Cole a URL da foto"
+      />
+    </label>
+ 
+    <label>
+      Cor
+      <input
+        type="text"
+        formControlName="cor"
+        placeholder="Ex: Branco, preto e branco..."
+      />
+    </label>
+ 
+    <label>
+      Sexo
+ 
+      <select formControlName="sexo">
+        <option
+          *ngFor="let s of sexoOptions"
+          [value]="s"
+        >
+          {{ s === 'MACHO' ? 'Macho' : 'Fêmea' }}
+        </option>
+      </select>
+    </label>
+ 
+    <label>
+      Idade (anos)
+ 
+      <input
+        type="number"
+        formControlName="idade"
+        min="0"
+        placeholder="Ex: 2"
+      />
+    </label>
+ 
+    <label>
+      Peso (kg)
+ 
+      <input
+        type="number"
+        formControlName="peso"
+        min="0"
+        step="0.1"
+        placeholder="Ex: 4.5"
+      />
+    </label>
+ 
+    <label>
+      Biografia
+ 
+      <textarea
+        formControlName="biografia"
+        rows="4"
+        placeholder="Conte um pouco sobre o gato..."
+      ></textarea>
+    </label>
+ 
+    <label>
+      Status
+ 
+      <select formControlName="status">
+        <option
+          *ngFor="let s of statusOptions"
+          [value]="s"
+        >
+          {{ s === 'DISPONIVEL'
+              ? 'Disponível'
+              : s === 'EM_ADOCAO'
+                ? 'Em adoção'
+                : s === 'ADOTADO'
+                  ? 'Adotado'
+                  : 'Transferido'
+          }}
+        </option>
+      </select>
+    </label>
+ 
+    <button
+      type="submit"
+      [disabled]="enviando()"
+    >
+      {{ enviando() ? 'Salvando...' : 'Salvar alterações' }}
+    </button>
+ 
+    <p
+      class="sucesso"
+      *ngIf="mensagemSucesso()"
+    >
+      {{ mensagemSucesso() }}
+    </p>
+ 
+    <p
+      class="erro"
+      *ngIf="mensagemErro()"
+    >
+      {{ mensagemErro() }}
+    </p>
+ 
+  </form>
+ 
+  <a class="btn-voltar" routerLink="/gatos">Voltar para a listagem</a>
+ 
+</div>
+ 
