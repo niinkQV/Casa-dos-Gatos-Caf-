@@ -35,8 +35,14 @@ export class GatoService {
 
   atualizar(id: number, gato: GatoRequest): Observable<Gato> {
     return this.http.put<Gato>(
-        `${this.apiUrl}/gatos/${id}`,
-        gato
+      `${this.apiUrl}/gatos/${id}`,
+      gato
+    );
+  }
+
+  remover(id: number): Observable<void> {
+    return this.http.delete<void>(
+      `${this.apiUrl}/gatos/${id}`
     );
   }
 }

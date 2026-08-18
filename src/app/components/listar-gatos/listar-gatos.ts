@@ -48,8 +48,26 @@ export class ListarGatos implements OnInit {
     });
   }
 
-  aoMudarFiltro(): void {
+    aoMudarFiltro(): void {
     this.carregar();
+  }
+
+  remover(id: number): void {
+    const confirmar = confirm('Deseja transferir este gato?');
+
+    if (!confirmar) {
+      return;
+    }
+
+    this.gatoService.remover(id).subscribe({
+      next: () => {
+        this.carregar();
+      },
+      error: (erro: any) => {
+        console.error('Erro ao transferir gato:', erro);
+        this.mensagemErro.set('Nao foi possivel transferir o gato.');
+      }
+    });
   }
 
 }
